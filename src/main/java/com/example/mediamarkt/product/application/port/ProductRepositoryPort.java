@@ -9,7 +9,7 @@ public interface ProductRepositoryPort {
 
     Mono<Product> save(Product product);
 
-    Mono<Product> findById(Product product);
+    Mono<Product> findById(String id);
 
     Flux<Product> findAll();
 
