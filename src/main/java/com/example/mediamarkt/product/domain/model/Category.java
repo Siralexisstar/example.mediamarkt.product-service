@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Category {
 
-    private String id;
+  private String id;
 
-    private String name;
+  private String name;
 
-    private String parentId;
+  private String parentId;
 }

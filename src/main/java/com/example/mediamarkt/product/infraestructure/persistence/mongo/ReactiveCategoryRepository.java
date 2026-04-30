@@ -2,6 +2,5 @@ package com.example.mediamarkt.product.infraestructure.persistence.mongo;
 
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 
-public interface ReactiveCategoryRepository extends ReactiveMongoRepository<CategoryDocument, String> {
-
-}
+public interface ReactiveCategoryRepository
+    extends ReactiveMongoRepository<CategoryDocument, String> {}
