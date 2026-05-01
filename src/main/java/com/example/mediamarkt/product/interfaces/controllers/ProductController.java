@@ -4,6 +4,7 @@ import com.example.mediamarkt.product.application.impl.ManageProductsImpl;
 import com.example.mediamarkt.product.interfaces.controllers.dto.ProductDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,17 +21,10 @@ import reactor.core.publisher.Mono;
 @RestController
 @RequestMapping("api/v1/products")
 @RequiredArgsConstructor
+@Tag(name = "Products", description = "Endpoint to handle Products")
 public class ProductController {
 
   private final ManageProductsImpl productsImpl;
-
-  @GetMapping("hellow/products")
-  @Operation(summary = "Say hellow to product")
-  public Mono<ProductDto> hellowProducts(ProductDto productDto) {
-    return Mono.just(productDto);
-  }
-
-  // CRUD CONTROLLERS
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
