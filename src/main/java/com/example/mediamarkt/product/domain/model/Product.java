@@ -22,7 +22,5 @@ public class Product {
 
   private String shortDescription;
 
-  private double price;
-
   private List<String> categoryIds;
 }

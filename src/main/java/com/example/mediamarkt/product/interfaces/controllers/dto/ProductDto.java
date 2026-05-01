@@ -24,9 +24,6 @@ public class ProductDto {
   @NotNull(message = "ShortDescription is required")
   private String shortDescription;
 
-  @NotNull(message = "Price is required")
-  private double price;
-
   @NotNull(message = "CategoryIds is required")
   private List<String> categoryIds;
 

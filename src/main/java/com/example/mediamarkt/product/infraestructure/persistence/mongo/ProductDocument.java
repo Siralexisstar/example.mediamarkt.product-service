@@ -26,8 +26,6 @@ public class ProductDocument {
 
   private String shortDescription;
 
-  private double price;
-
   private List<String> categoryIds;
 
   // Mappers
@@ -40,7 +38,6 @@ public class ProductDocument {
         .status(product.getStatus())
         .longDescription(product.getLongDescription())
         .shortDescription(product.getShortDescription())
-        .price(product.getPrice())
         .categoryIds(product.getCategoryIds())
         .build();
   }

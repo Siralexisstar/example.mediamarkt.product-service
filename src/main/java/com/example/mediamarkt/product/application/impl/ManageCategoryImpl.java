@@ -14,7 +14,7 @@ public class ManageCategoryImpl {
 
   private final CategoryRepositoryPort categoryRepositoryPort;
 
-  public Mono<Category> createCategoty(Category category) {
+  public Mono<Category> createCategory(Category category) {
 
     return categoryRepositoryPort.save(category);
   }

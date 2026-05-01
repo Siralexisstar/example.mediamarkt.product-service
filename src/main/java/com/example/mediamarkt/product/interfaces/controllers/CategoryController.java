@@ -3,7 +3,6 @@ package com.example.mediamarkt.product.interfaces.controllers;
 import com.example.mediamarkt.product.application.impl.ManageCategoryImpl;
 import com.example.mediamarkt.product.interfaces.controllers.dto.CategoryDto;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,7 +33,7 @@ public class CategoryController {
 
     return categoryDto
         .map(CategoryDto::toDomain)
-        .flatMap(c -> categoryImpl.createCategoty(c))
+        .flatMap(c -> categoryImpl.createCategory(c))
         .map(CategoryDto::fromDomain);
   }
 
