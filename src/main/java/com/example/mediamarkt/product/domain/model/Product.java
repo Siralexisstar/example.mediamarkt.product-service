@@ -16,7 +16,7 @@ public class Product {
 
   private String name;
 
-  private OnlineStatus onlineStatus;
+  private String status;
 
   private String longDescription;
 

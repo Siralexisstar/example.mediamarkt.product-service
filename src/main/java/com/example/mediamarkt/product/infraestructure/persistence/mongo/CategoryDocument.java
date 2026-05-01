@@ -24,6 +24,7 @@ public class CategoryDocument {
   // Mappers.
 
   public static CategoryDocument fromDomain(Category category) {
+    if (category == null) return null;
     return CategoryDocument.builder()
         .id(category.getId())
         .name(category.getName())

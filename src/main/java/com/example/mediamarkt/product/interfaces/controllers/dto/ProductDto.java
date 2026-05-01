@@ -1,46 +1,45 @@
-package com.example.mediamarkt.product.infraestructure.persistence.mongo;
+package com.example.mediamarkt.product.interfaces.controllers.dto;
 
 import com.example.mediamarkt.product.domain.model.Product;
+import jakarta.validation.constraints.NotNull;
 import java.util.List;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@Document(collection = "products")
-public class ProductDocument {
+public class ProductDto {
 
-  @Id private String id;
+  private String id;
 
+  @NotNull(message = "Name is required")
   private String name;
 
+  @NotNull(message = "status is required")
   private String status;
 
+  @NotNull(message = "LongDescription is required")
   private String longDescription;
 
+  @NotNull(message = "ShortDescription is required")
   private String shortDescription;
 
+  @NotNull(message = "Price is required")
   private double price;
 
+  @NotNull(message = "CategoryIds is required")
   private List<String> categoryIds;
 
-  // Mappers
+  // Mappers for dto's
 
-  public static ProductDocument fromDomain(Product product) {
+  public static ProductDto fromDomain(Product product) {
     if (product == null) return null;
-    return ProductDocument.builder()
+    return ProductDto.builder()
         .id(product.getId())
         .name(product.getName())
         .status(product.getStatus())
         .longDescription(product.getLongDescription())
         .shortDescription(product.getShortDescription())
-        .price(product.getPrice())
         .categoryIds(product.getCategoryIds())
         .build();
   }
