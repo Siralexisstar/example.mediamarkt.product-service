@@ -1,6 +1,7 @@
 package com.example.mediamarkt.product.application.impl;
 
 import com.example.mediamarkt.product.application.port.CategoryRepositoryPort;
+import com.example.mediamarkt.product.domain.exception.ResourceNotFoundException;
 import com.example.mediamarkt.product.domain.model.Category;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class ManageCategoryImpl {
 
     return categoryRepositoryPort
         .findById(id)
-        .switchIfEmpty(Mono.error(new Exception("Product not found")));
+        .switchIfEmpty(Mono.error(new ResourceNotFoundException("Category not found")));
   }
 
   public Flux<Category> getAllCategories() {
@@ -32,7 +33,7 @@ public class ManageCategoryImpl {
   public Mono<Category> updateCategory(String id, Category category) {
     return categoryRepositoryPort
         .findById(id)
-        .switchIfEmpty(Mono.error(new Exception("Product not found")))
+        .switchIfEmpty(Mono.error(new ResourceNotFoundException("Category not found")))
         .flatMap(
             c -> {
               category.setId(id);
