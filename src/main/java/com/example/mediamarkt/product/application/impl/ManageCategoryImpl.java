@@ -59,7 +59,6 @@ public class ManageCategoryImpl {
               if (category.getParentId() != null && !category.getParentId().isEmpty()) {
                 return categoryRepositoryPort.findById(category.getParentId());
               }
-              log.info("No more parent category found for categoryId {} ", categoryId);
               return Mono.empty();
             })
         .collectList()
@@ -69,11 +68,6 @@ public class ManageCategoryImpl {
               Collections.reverse(entirePath);
               return entirePath;
             })
-        .doOnError(
-            e ->
-                log.error(
-                    "Error while fetching category path for categoryId {} and error {} ",
-                    categoryId,
-                    e));
+        .doOnError(v -> Mono.error(new ResourceNotFoundException("Category not found")));
   }
 }
