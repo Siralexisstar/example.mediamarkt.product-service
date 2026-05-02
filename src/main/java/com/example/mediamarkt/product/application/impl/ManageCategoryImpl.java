@@ -20,12 +20,10 @@ public class ManageCategoryImpl {
   private final CategoryRepositoryPort categoryRepositoryPort;
 
   public Mono<Category> createCategory(Category category) {
-
     return categoryRepositoryPort.save(category);
   }
 
   public Mono<Category> getCategory(String id) {
-
     return categoryRepositoryPort
         .findById(id)
         .switchIfEmpty(Mono.error(new ResourceNotFoundException("Category not found")));
@@ -59,8 +57,9 @@ public class ManageCategoryImpl {
         .expandDeep(
             category -> {
               if (category.getParentId() != null && !category.getParentId().isEmpty()) {
-                return categoryRepositoryPort.findById(categoryId);
+                return categoryRepositoryPort.findById(category.getParentId());
               }
+              log.info("No more parent category found for categoryId {} ", categoryId);
               return Mono.empty();
             })
         .collectList()
@@ -70,7 +69,11 @@ public class ManageCategoryImpl {
               Collections.reverse(entirePath);
               return entirePath;
             })
-        .doOnSuccess(v -> log.info("Returning the entire path {} ", v))
-        .doOnError(v -> Mono.error(new RuntimeException("No trace found {} ", v)));
+        .doOnError(
+            e ->
+                log.error(
+                    "Error while fetching category path for categoryId {} and error {} ",
+                    categoryId,
+                    e));
   }
 }

@@ -15,12 +15,10 @@ public class ManageProductsImpl {
   private final ProductRepositoryPort productRepositoryPort;
 
   public Mono<Product> createProduct(Product product) {
-
     return productRepositoryPort.save(product);
   }
 
   public Mono<Product> getProduct(String id) {
-
     return productRepositoryPort
         .findById(id)
         .switchIfEmpty(Mono.error(new ResourceNotFoundException("Product not found")));
