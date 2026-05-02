@@ -1,10 +1,15 @@
 package com.example.mediamarkt.product.interfaces.controllers;
 
+import com.example.mediamarkt.product.application.impl.ManageCategoryImpl;
 import com.example.mediamarkt.product.application.impl.ManageProductsImpl;
+import com.example.mediamarkt.product.interfaces.controllers.dto.CategoryDto;
 import com.example.mediamarkt.product.interfaces.controllers.dto.ProductDto;
+import com.example.mediamarkt.product.interfaces.controllers.dto.ProductWithCategoryPathDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,6 +30,7 @@ import reactor.core.publisher.Mono;
 public class ProductController {
 
   private final ManageProductsImpl productsImpl;
+  private final ManageCategoryImpl categoryImpl;
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
@@ -47,6 +53,45 @@ public class ProductController {
   @Operation(summary = "Get all products")
   public Flux<ProductDto> getAllProducts() {
     return productsImpl.getAllProducts().map(ProductDto::fromDomain);
+  }
+
+  @GetMapping("/{id}/with-category-path")
+  @Operation(summary = "Get the Product with the entire Category path")
+  public Mono<ProductWithCategoryPathDto> getProductsWithCategoryPath(@PathVariable String id) {
+    return productsImpl
+        .getProduct(id)
+        .flatMap(
+            product -> {
+              if (product.getCategoryIds() != null && !product.getCategoryIds().isEmpty()) {
+                return Mono.just(
+                    ProductWithCategoryPathDto.builder()
+                        .product(ProductDto.fromDomain(product))
+                        .categoryPaths(List.of())
+                        .build());
+              }
+
+              Flux<List<CategoryDto>> pathsFlux =
+                  Flux.fromIterable(product.getCategoryIds())
+                      .flatMap(
+                          catId ->
+                              categoryImpl
+                                  .getCategoryPath(catId)
+                                  .map(
+                                      list ->
+                                          list.stream()
+                                              .map(CategoryDto::fromDomain)
+                                              .collect(Collectors.toList()))
+                                  .onErrorResume(e -> Mono.empty()));
+
+              return pathsFlux
+                  .collectList()
+                  .map(
+                      paths ->
+                          ProductWithCategoryPathDto.builder()
+                              .product(ProductDto.fromDomain(product))
+                              .categoryPaths(paths)
+                              .build());
+            });
   }
 
   @PutMapping("/{id}")

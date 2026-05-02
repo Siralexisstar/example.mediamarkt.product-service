@@ -4,6 +4,7 @@ import com.example.mediamarkt.product.application.impl.ManageCategoryImpl;
 import com.example.mediamarkt.product.interfaces.controllers.dto.CategoryDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -47,6 +48,14 @@ public class CategoryController {
   @Operation(summary = "Find all categories")
   public Flux<CategoryDto> getAll() {
     return categoryImpl.getAllCategories().map(CategoryDto::fromDomain);
+  }
+
+  @GetMapping("/{id}/path")
+  @Operation(summary = "Get the entire path of category tree")
+  public Mono<List<CategoryDto>> getEntirePathCategory(@PathVariable String id) {
+    return categoryImpl
+        .getCategoryPath(id)
+        .map(list -> list.stream().map(CategoryDto::fromDomain).toList());
   }
 
   @PutMapping("/{id}")

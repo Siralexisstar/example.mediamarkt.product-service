@@ -3,13 +3,18 @@ package com.example.mediamarkt.product.application.impl;
 import com.example.mediamarkt.product.application.port.CategoryRepositoryPort;
 import com.example.mediamarkt.product.domain.exception.ResourceNotFoundException;
 import com.example.mediamarkt.product.domain.model.Category;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ManageCategoryImpl {
 
   private final CategoryRepositoryPort categoryRepositoryPort;
@@ -47,5 +52,25 @@ public class ManageCategoryImpl {
 
   public Mono<Void> deleteCategories() {
     return categoryRepositoryPort.deleteAll();
+  }
+
+  public Mono<List<Category>> getCategoryPath(String categoryId) {
+    return getCategory(categoryId)
+        .expandDeep(
+            category -> {
+              if (category.getParentId() != null && !category.getParentId().isEmpty()) {
+                return categoryRepositoryPort.findById(categoryId);
+              }
+              return Mono.empty();
+            })
+        .collectList()
+        .map(
+            list -> {
+              List<Category> entirePath = new ArrayList<>(list);
+              Collections.reverse(entirePath);
+              return entirePath;
+            })
+        .doOnSuccess(v -> log.info("Returning the entire path {} ", v))
+        .doOnError(v -> Mono.error(new RuntimeException("No trace found {} ", v)));
   }
 }
