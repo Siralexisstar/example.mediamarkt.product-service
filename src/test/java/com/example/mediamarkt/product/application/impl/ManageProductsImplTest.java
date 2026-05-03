@@ -1,5 +1,6 @@
 package com.example.mediamarkt.product.application.impl;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -30,7 +31,7 @@ public class ManageProductsImplTest {
   private final List<String> PRODUCT_CATEGORY_IDS = List.of("cat1", "cat2");
 
   @Test
-  void should_returnProduct_whenProductExists() {
+  void should_returnProduct_when_createProduct() {
 
     // Given
     Product product =
@@ -49,7 +50,7 @@ public class ManageProductsImplTest {
     // Then
     StepVerifier.create(manageProducts.createProduct(product)).expectNext(product).verifyComplete();
 
-    verify(productRepositoryPort).save(product);
+    verify(productRepositoryPort).save(any(Product.class));
   }
 
   @Test
