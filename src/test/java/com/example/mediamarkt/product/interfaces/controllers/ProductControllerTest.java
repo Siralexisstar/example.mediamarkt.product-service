@@ -53,6 +53,8 @@ public class ProductControllerTest {
         .isCreated()
         .expectBody(ProductDto.class)
         .isEqualTo(productDto);
+
+    verify(productsImpl).createProduct(any(Product.class));
   }
 
   @Test
@@ -68,6 +70,8 @@ public class ProductControllerTest {
         .isOk()
         .expectBodyList(ProductDto.class)
         .contains(productDto);
+
+    verify(productsImpl).getAllProducts();
   }
 
   @Test
@@ -82,12 +86,15 @@ public class ProductControllerTest {
         .isOk()
         .expectBody(ProductDto.class)
         .isEqualTo(productDto);
+
+    verify(productsImpl).getProduct("1");
   }
 
   @Test
   void deleteProduct_shouldReturnNoContent() {
     when(productsImpl.deleteProduct("1")).thenReturn(Mono.empty());
     webTestClient.delete().uri("/api/v1/products/1").exchange().expectStatus().isNoContent();
+    verify(productsImpl).deleteProduct("1");
   }
 
   @Test
@@ -139,6 +146,9 @@ public class ProductControllerTest {
         .isOk()
         .expectBody(ProductWithCategoryPathDto.class)
         .isEqualTo(response);
+
+    verify(productsImpl).getProduct("1");
+    verify(categoryImpl).getCategoryPath("cat1");
   }
 
   public static final ProductDto buildProductDto() {
