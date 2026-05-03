@@ -29,8 +29,10 @@
 	</scm>
 	<properties>
 		<java.version>17</java.version>
+		<sonar.projectKey>Siralexisstar_example_mediamarkt_product-service</sonar.projectKey>
 		<sonar.organization>mediamarkt-demo-key</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 	</properties>
 	<dependencies>
 		<dependency>
