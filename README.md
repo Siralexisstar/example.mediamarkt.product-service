@@ -61,3 +61,28 @@ Once the application displays in the console that the `DataLoader` has finished 
 ## 🧪 Key Endpoints
 
 From Swagger, you can test all the standard CRUD endpoints for **Categories** and **Products**.
+
+## 🔧 Testing & Code Coverage
+
+Unit tests have been implemented following best practices for  **reactive applications (Spring WebFlux)** , focusing on validating both business logic and REST layer behavior.
+
+**For testing I used:** 
+
+* **JUnit 5**
+* **Mockito**
+* **WebTestClient** (for reactive controller testing)
+* **StepVerifier** (for validating reactive streams)
+
+### 🔹 Current Test Coverage Scope
+
+The following layers are already covered:
+
+* **Application Layer (Use Cases)**
+* `ManageCategoryImplTest`
+* `ManageProductsImplTest`
+* **Interfaces Layer (Controllers)**
+* `ProductControllerTest`
+
+### 📊 Code Coverage (JaCoCo)
+
+Code coverage is being tracked using  **JaCoCo** , ensuring visibility on tested vs untested code.
