@@ -1,5 +1,4 @@
 ---
-
 # 🧪 SKILL.md — Unit Testing for Spring WebFlux (JUnit 5)
 
 ## 🎯 Goal
@@ -66,9 +65,7 @@ Examples:
 ✔ Always use:
 
 <pre class="overflow-visible! px-0!" data-start="1438" data-end="1507"><div class="relative w-full mt-4 mb-1"><div class=""><div class="relative"><div class="h-full min-h-0 min-w-0"><div class="h-full min-h-0 min-w-0"><div class="border border-token-border-light border-radius-3xl corner-superellipse/1.1 rounded-3xl"><div class="h-full w-full border-radius-3xl bg-token-bg-elevated-secondary corner-superellipse/1.1 overflow-clip rounded-3xl lxnfua_clipPathFallback"><div class="pointer-events-none absolute inset-x-4 top-12 bottom-4"><div class="pointer-events-none sticky z-40 shrink-0 z-1!"><div class="sticky bg-token-border-light"></div></div></div><div class="relative"><div class=""><div class="relative z-0 flex max-w-full"><div id="code-block-viewer" dir="ltr" class="q9tKkq_viewer cm-editor z-10 light:cm-light dark:cm-light flex h-full w-full flex-col items-stretch ͼs ͼ16"><div class="cm-scroller"><pre class="cm-content q9tKkq_readonly m-0"><code><span>@</span><span class="ͼ11">DisplayName</span><span>(</span><span class="ͼz">"Should return product when product exists"</span><span>)</span></code></pre></div></div></div></div></div></div></div></div></div><div class=""><div class=""></div></div></div></div></div></pre>
-
 ---
-
 ## 🧱 Test Structure (AAA)
 
 All tests MUST follow:
@@ -157,7 +154,7 @@ More strict:
 
 ---
 
-### `then()` (Mono`<Void>`)
+### `then()` (Mono `<Void>`)
 
 <pre class="overflow-visible! px-0!" data-start="3591" data-end="3653"><div class="relative w-full mt-4 mb-1"><div class=""><div class="relative"><div class="h-full min-h-0 min-w-0"><div class="h-full min-h-0 min-w-0"><div class="border border-token-border-light border-radius-3xl corner-superellipse/1.1 rounded-3xl"><div class="h-full w-full border-radius-3xl bg-token-bg-elevated-secondary corner-superellipse/1.1 overflow-clip rounded-3xl lxnfua_clipPathFallback"><div class="pointer-events-none absolute inset-x-4 top-12 bottom-4"><div class="pointer-events-none sticky z-40 shrink-0 z-1!"><div class="sticky bg-token-border-light"></div></div></div><div class="relative"><div class=""><div class="relative z-0 flex max-w-full"><div id="code-block-viewer" dir="ltr" class="q9tKkq_viewer cm-editor z-10 light:cm-light dark:cm-light flex h-full w-full flex-col items-stretch ͼs ͼ16"><div class="cm-scroller"><pre class="cm-content q9tKkq_readonly m-0"><code><span class="ͼ11">StepVerifier</span><span class="ͼv">.</span><span class="ͼ11">create</span><span>(</span><span class="ͼ11">result</span><span>)</span><br/><span></span><span class="ͼv">.</span><span class="ͼ11">verifyComplete</span><span>();</span></code></pre></div></div></div></div></div></div></div></div></div><div class=""><div class=""></div></div></div></div></div></pre>
 
@@ -167,7 +164,7 @@ More strict:
 
 Use  **slice testing** , not full context.
 
-<pre class="overflow-visible! px-0!" data-start="3738" data-end="3910"><div class="relative w-full mt-4 mb-1"><div class=""><div class="relative"><div class="h-full min-h-0 min-w-0"><div class="h-full min-h-0 min-w-0"><div class="border border-token-border-light border-radius-3xl corner-superellipse/1.1 rounded-3xl"><div class="h-full w-full border-radius-3xl bg-token-bg-elevated-secondary corner-superellipse/1.1 overflow-clip rounded-3xl lxnfua_clipPathFallback"><div class="pointer-events-none absolute inset-x-4 top-12 bottom-4"><div class="pointer-events-none sticky z-40 shrink-0 z-1!"><div class="sticky bg-token-border-light"></div></div></div><div class="relative"><div class=""><div class="relative z-0 flex max-w-full"><div id="code-block-viewer" dir="ltr" class="q9tKkq_viewer cm-editor z-10 light:cm-light dark:cm-light flex h-full w-full flex-col items-stretch ͼs ͼ16"><div class="cm-scroller"><pre class="cm-content q9tKkq_readonly m-0"><code><span>@</span><span class="ͼ11">WebFluxTest</span><span>(</span><span class="ͼ11">MyController</span><span class="ͼv">.class</span><span>)</span><br/><span class="ͼv">class</span><span></span><span class="ͼ11">MyControllerTest</span><span> {</span><br/><br/><span>    @</span><span class="ͼ11">Autowired</span><br/><span></span><span class="ͼv">private</span><span></span><span class="ͼ11">WebTestClient</span><span></span><span class="ͼ11">webTestClient</span><span>;</span><br/><br/><span>    @</span><span class="ͼ11">MockBean</span><br/><span></span><span class="ͼv">private</span><span></span><span class="ͼ11">UseCase</span><span></span><span class="ͼ11">useCase</span><span>;</span><br/><span>}</span></code></pre></div></div></div></div></div></div></div></div></div><div class=""><div class=""></div></div></div></div></div></pre>
+<pre class="overflow-visible! px-0!" data-start="3738" data-end="3910"><div class="relative w-full mt-4 mb-1"><div class=""><div class="relative"><div class="h-full min-h-0 min-w-0"><div class="h-full min-h-0 min-w-0"><div class="border border-token-border-light border-radius-3xl corner-superellipse/1.1 rounded-3xl"><div class="h-full w-full border-radius-3xl bg-token-bg-elevated-secondary corner-superellipse/1.1 overflow-clip rounded-3xl lxnfua_clipPathFallback"><div class="pointer-events-none absolute inset-x-4 top-12 bottom-4"><div class="pointer-events-none sticky z-40 shrink-0 z-1!"><div class="sticky bg-token-border-light"></div></div></div><div class="relative"><div class=""><div class="relative z-0 flex max-w-full"><div id="code-block-viewer" dir="ltr" class="q9tKkq_viewer cm-editor z-10 light:cm-light dark:cm-light flex h-full w-full flex-col items-stretch ͼs ͼ16"><div class="cm-scroller"><pre class="cm-content q9tKkq_readonly m-0"><code><span>@</span><span class="ͼ11">WebFluxTest</span><span>(</span><span class="ͼ11">MyController</span><span class="ͼv">.class</span><span>)</span><br/><span class="ͼv">class</span><span></span><span class="ͼ11">MyControllerTest</span><span> {</span><br/><br/><span>    @</span><span class="ͼ11">Autowired</span><br/><span></span><span class="ͼv">private</span><span></span><span class="ͼ11">WebTestClient</span><span></span><span class="ͼ11">webTestClient</span><span>;</span><br/><br/><span>    @</span><span class="ͼ11">MockitoBean</span><br/><span></span><span class="ͼv">private</span><span></span><span class="ͼ11">UseCase</span><span></span><span class="ͼ11">useCase</span><span>;</span><br/><span>}</span></code></pre></div></div></div></div></div></div></div></div></div><div class=""><div class=""></div></div></div></div></div></pre>
 
 Example:
 
@@ -254,4 +251,3 @@ Prioritize  **critical business paths** .
 > A good test validates  **what the system does** ,
 >
 > not  **how it is implemented** .
->
