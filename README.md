@@ -46,11 +46,22 @@ spring:
 ## **Local Execution:**
 
 1. Clone the repo
-2. Ensure you have MongoDb running local `localhost:27017`
-3. Execute:
+2. Ensure you have Docker Desktop
+3. Start the database
+
    ```bash
-   ./mvnw spring-boot:run
+     docker compose up -d
    ```
+4. You have to see something like this:
+
+   ![1777932405272](image/README/1777932405272.png "Terminal")
+
+   ![1777932426941](image/README/1777932426941.png "Docker Desktop")
+5. Finally execute:
+
+```bash
+   ./mvnw spring-boot:run
+```
 
 **Access the Swagger Documentation:**
 
