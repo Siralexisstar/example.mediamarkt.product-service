@@ -3,13 +3,9 @@ package com.example.mediamarkt.product.integration;
 import com.example.mediamarkt.product.interfaces.controllers.dto.CategoryDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.reactive.server.WebTestClient;
 
 class CategoryIntegrationTest extends AbstractIntegrationTest {
-
-  @Autowired private WebTestClient webTestClient;
 
   @Test
   @DisplayName("Integration Test: Should Return All Categories")
