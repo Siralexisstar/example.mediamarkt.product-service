@@ -86,12 +86,31 @@ Unit tests have been implemented following best practices for  **reactive applic
 
 ### 🔹 Current Test Coverage Scope
 
-The project features comprehensive test coverage across all critical layers, achieving a **100% coverage rate** in both controllers and database adapters:
+We have UNIT TEST and INTEGRATION TEST
+
+**1. Unit Testing:** The project features comprehensive test coverage across all critical layers, achieving a **100% coverage rate** in both controllers and database adapters:
 
 * **Application Layer (Use Cases):** `ManageCategoryImplTest`, `ManageProductsImplTest`
-* **Interfaces Layer (Controllers):** `ProductControllerTest`, `CategoryControllerTest`
-* **Infrastructure Layer (Adapters):** `ProductRepositoryAdapterTest`, `CategoryRepositoryAdapterTest`
-* **Global Error Handling:** `GlobalExceptionHandlerTest`
+* **Interfaces Layer (Controllers):**`ProductControllerTest`, `CategoryControllerTest`
+* **Infrastructure Layer (Adapters):**`ProductRepositoryAdapterTest`, `CategoryRepositoryAdapterTest`
+* **Global Error Handling:**`GlobalExceptionHandlerTest`
+
+**2. Integration Testing (E2E):** To ensure the end-to-end "Happy Path" and actual database connectivity without manual mocking, the project leverages  **Testcontainers** . This allows us to spin up a real, ephemeral MongoDB instance purely for the tests.
+
+* **CategoryIntegrationTest** : Covers full CRUD operations for Categories.
+* **ProductIntegrationTest** : Covers full CRUD operations for Products, including complex category path retrieval.
+* **AbstractIntegrationTest** : Base configuration class that implements the Singleton Container Pattern to ensure MongoDB is only started once, optimizing test execution time and avoiding memory leaks.
+
+### ⚠️Important: How to Run the Integration Tests
+
+To successfully run the integration tests, **Docker Desktop must be running** on your machine.
+
+1. Ensure that any manual instances of the database are stopped (e.g., run `docker compose down` if you previously started the local stack).
+2. Launch the tests using the command:
+
+   ```bash
+   ./mvnw clean test
+   ```
 
 ### 🤖 CI/CD & Automated Testing
 
@@ -101,7 +120,7 @@ Whenever code is pushed to the `main` branch or a Pull Request is opened, the CI
 
 1. **Automated Test Execution**: The pipeline runs `mvn clean verify`, executing the full suite of unit tests. This acts as an immediate safety net, ensuring no breaking changes or regressions are merged.
 2. **JaCoCo Coverage Generation**: During the test execution phase, the JaCoCo Maven plugin automatically generates a detailed XML test coverage report.
-3. **SonarCloud Integration**: Finally, the pipeline sends the JaCoCo coverage report and the source code to SonarCloud.
+3. **SonarCloud Integration**: Finally, the pipeline sends the JaCoCo coverage report and the source code to SonarCloud. The pipeline shows the unit testing and also integration test.
 
 ### 📊 SonarQube Cloud [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Siralexisstar_example.mediamarkt.product-service&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Siralexisstar_example.mediamarkt.product-service)
 
