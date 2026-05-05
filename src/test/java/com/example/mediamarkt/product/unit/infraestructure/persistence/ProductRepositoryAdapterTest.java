@@ -22,11 +22,9 @@ import reactor.test.StepVerifier;
 @ExtendWith(MockitoExtension.class)
 class ProductRepositoryAdapterTest {
 
-  @Mock
-  private ReactiveProductRepository productRepo;
+  @Mock private ReactiveProductRepository productRepo;
 
-  @InjectMocks
-  private ProductRepositoryAdapter adapter;
+  @InjectMocks private ProductRepositoryAdapter adapter;
 
   private final String PRODUCT_ID = "1";
   private final String PRODUCT_NAME = "Laptop";
@@ -36,7 +34,8 @@ class ProductRepositoryAdapterTest {
   void should_saveProduct_when_save() {
     // Arrange
     Product domainProduct = Product.builder().id(PRODUCT_ID).name(PRODUCT_NAME).build();
-    ProductDocument savedDocument = ProductDocument.builder().id(PRODUCT_ID).name(PRODUCT_NAME).build();
+    ProductDocument savedDocument =
+        ProductDocument.builder().id(PRODUCT_ID).name(PRODUCT_NAME).build();
 
     when(productRepo.save(any(ProductDocument.class))).thenReturn(Mono.just(savedDocument));
 

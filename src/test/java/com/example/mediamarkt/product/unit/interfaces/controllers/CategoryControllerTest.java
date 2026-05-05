@@ -24,11 +24,9 @@ import reactor.core.publisher.Mono;
 @WebFluxTest(CategoryController.class)
 class CategoryControllerTest {
 
-  @Autowired
-  private WebTestClient webTestClient;
+  @Autowired private WebTestClient webTestClient;
 
-  @MockitoBean
-  private ManageCategoryImpl categoryImpl;
+  @MockitoBean private ManageCategoryImpl categoryImpl;
 
   private final String CATEGORY_ID = "1";
   private final String CATEGORY_NAME = "Electronics";
@@ -38,9 +36,11 @@ class CategoryControllerTest {
   @DisplayName("Should return created category when create is called")
   void should_returnCreatedCategory_when_createCategory() {
     // Arrange
-    CategoryDto inputDto = CategoryDto.builder().id(CATEGORY_ID).name(CATEGORY_NAME).parentId(PARENT_ID).build();
+    CategoryDto inputDto =
+        CategoryDto.builder().id(CATEGORY_ID).name(CATEGORY_NAME).parentId(PARENT_ID).build();
 
-    Category domainCategory = Category.builder().id(CATEGORY_ID).name(CATEGORY_NAME).parentId(PARENT_ID).build();
+    Category domainCategory =
+        Category.builder().id(CATEGORY_ID).name(CATEGORY_NAME).parentId(PARENT_ID).build();
 
     when(categoryImpl.createCategory(any(Category.class))).thenReturn(Mono.just(domainCategory));
 
@@ -69,7 +69,8 @@ class CategoryControllerTest {
   @DisplayName("Should return category when found by id")
   void should_returnCategory_when_getById() {
     // Arrange
-    Category domainCategory = Category.builder().id(CATEGORY_ID).name(CATEGORY_NAME).parentId(PARENT_ID).build();
+    Category domainCategory =
+        Category.builder().id(CATEGORY_ID).name(CATEGORY_NAME).parentId(PARENT_ID).build();
 
     when(categoryImpl.getCategory(CATEGORY_ID)).thenReturn(Mono.just(domainCategory));
 

@@ -19,11 +19,9 @@ import reactor.test.StepVerifier;
 @ExtendWith(MockitoExtension.class)
 public class ManageCategoryImplTest {
 
-  @Mock
-  private CategoryRepositoryPort categoryRepositoryPort;
+  @Mock private CategoryRepositoryPort categoryRepositoryPort;
 
-  @InjectMocks
-  private ManageCategoryImpl manageCategory;
+  @InjectMocks private ManageCategoryImpl manageCategory;
 
   private final String CATEGORY_ID = "1";
   private final String CATEGORY_NAME = "Test Category";
@@ -33,7 +31,8 @@ public class ManageCategoryImplTest {
   void should_returnCategory_when_createCategory() {
 
     // Given
-    Category category = Category.builder().id(CATEGORY_ID).name(CATEGORY_NAME).parentId(PARENT_CATEGORY_ID).build();
+    Category category =
+        Category.builder().id(CATEGORY_ID).name(CATEGORY_NAME).parentId(PARENT_CATEGORY_ID).build();
 
     // When
     when(categoryRepositoryPort.save(category)).thenReturn(Mono.just(category));
@@ -123,9 +122,10 @@ public class ManageCategoryImplTest {
     // parentId
     StepVerifier.create(manageCategory.getCategoryPath("1"))
         .expectNextMatches(
-            list -> list.size() == 2
-                && list.get(0).getId().equals("2")
-                && list.get(1).getId().equals("1"))
+            list ->
+                list.size() == 2
+                    && list.get(0).getId().equals("2")
+                    && list.get(1).getId().equals("1"))
         .verifyComplete();
     verify(categoryRepositoryPort).findById("1");
     verify(categoryRepositoryPort).findById("2");

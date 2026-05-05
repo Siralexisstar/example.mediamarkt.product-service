@@ -22,11 +22,9 @@ import reactor.test.StepVerifier;
 @ExtendWith(MockitoExtension.class)
 class CategoryRepositoryAdapterTest {
 
-  @Mock
-  private ReactiveCategoryRepository categoryRepo;
+  @Mock private ReactiveCategoryRepository categoryRepo;
 
-  @InjectMocks
-  private CategoryRepositoryAdapter adapter;
+  @InjectMocks private CategoryRepositoryAdapter adapter;
 
   private final String CATEGORY_ID = "1";
   private final String CATEGORY_NAME = "Electronics";
@@ -36,7 +34,8 @@ class CategoryRepositoryAdapterTest {
   void should_saveCategory_when_save() {
     // Arrange
     Category domainCategory = Category.builder().id(CATEGORY_ID).name(CATEGORY_NAME).build();
-    CategoryDocument savedDocument = CategoryDocument.builder().id(CATEGORY_ID).name(CATEGORY_NAME).build();
+    CategoryDocument savedDocument =
+        CategoryDocument.builder().id(CATEGORY_ID).name(CATEGORY_NAME).build();
 
     when(categoryRepo.save(any(CategoryDocument.class))).thenReturn(Mono.just(savedDocument));
 
@@ -56,7 +55,8 @@ class CategoryRepositoryAdapterTest {
   @DisplayName("Should return category when found by id")
   void should_returnCategory_when_findById() {
     // Arrange
-    CategoryDocument document = CategoryDocument.builder().id(CATEGORY_ID).name(CATEGORY_NAME).build();
+    CategoryDocument document =
+        CategoryDocument.builder().id(CATEGORY_ID).name(CATEGORY_NAME).build();
 
     when(categoryRepo.findById(CATEGORY_ID)).thenReturn(Mono.just(document));
 
