@@ -1,8 +1,10 @@
-package com.example.mediamarkt.product.interfaces.globalException;
+package com.example.mediamarkt.product.unit.interfaces.globalException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.example.mediamarkt.product.domain.exception.ResourceNotFoundException;
+import com.example.mediamarkt.product.interfaces.globalException.GlobalExceptionHandler;
+
 import jakarta.validation.ConstraintViolationException;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;

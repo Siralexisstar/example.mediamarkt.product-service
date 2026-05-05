@@ -1,9 +1,10 @@
-package com.example.mediamarkt.product.application.impl;
+package com.example.mediamarkt.product.unit.impl;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.example.mediamarkt.product.application.impl.ManageCategoryImpl;
 import com.example.mediamarkt.product.application.port.CategoryRepositoryPort;
 import com.example.mediamarkt.product.domain.exception.ResourceNotFoundException;
 import com.example.mediamarkt.product.domain.model.Category;
@@ -18,9 +19,11 @@ import reactor.test.StepVerifier;
 @ExtendWith(MockitoExtension.class)
 public class ManageCategoryImplTest {
 
-  @Mock private CategoryRepositoryPort categoryRepositoryPort;
+  @Mock
+  private CategoryRepositoryPort categoryRepositoryPort;
 
-  @InjectMocks private ManageCategoryImpl manageCategory;
+  @InjectMocks
+  private ManageCategoryImpl manageCategory;
 
   private final String CATEGORY_ID = "1";
   private final String CATEGORY_NAME = "Test Category";
@@ -30,8 +33,7 @@ public class ManageCategoryImplTest {
   void should_returnCategory_when_createCategory() {
 
     // Given
-    Category category =
-        Category.builder().id(CATEGORY_ID).name(CATEGORY_NAME).parentId(PARENT_CATEGORY_ID).build();
+    Category category = Category.builder().id(CATEGORY_ID).name(CATEGORY_NAME).parentId(PARENT_CATEGORY_ID).build();
 
     // When
     when(categoryRepositoryPort.save(category)).thenReturn(Mono.just(category));
@@ -117,13 +119,13 @@ public class ManageCategoryImplTest {
     Category cat2 = Category.builder().id("2").name("Cat 2").build();
     when(categoryRepositoryPort.findById("1")).thenReturn(Mono.just(cat1));
     when(categoryRepositoryPort.findById("2")).thenReturn(Mono.just(cat2));
-    // El método getCategoryPath invoca getCategory("1") y luego expande por parentId
+    // El método getCategoryPath invoca getCategory("1") y luego expande por
+    // parentId
     StepVerifier.create(manageCategory.getCategoryPath("1"))
         .expectNextMatches(
-            list ->
-                list.size() == 2
-                    && list.get(0).getId().equals("2")
-                    && list.get(1).getId().equals("1"))
+            list -> list.size() == 2
+                && list.get(0).getId().equals("2")
+                && list.get(1).getId().equals("1"))
         .verifyComplete();
     verify(categoryRepositoryPort).findById("1");
     verify(categoryRepositoryPort).findById("2");

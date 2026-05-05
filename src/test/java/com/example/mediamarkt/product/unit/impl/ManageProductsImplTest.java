@@ -1,9 +1,10 @@
-package com.example.mediamarkt.product.application.impl;
+package com.example.mediamarkt.product.unit.impl;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.example.mediamarkt.product.application.impl.ManageProductsImpl;
 import com.example.mediamarkt.product.application.port.ProductRepositoryPort;
 import com.example.mediamarkt.product.domain.exception.ResourceNotFoundException;
 import com.example.mediamarkt.product.domain.model.Product;
@@ -19,9 +20,11 @@ import reactor.test.StepVerifier;
 @ExtendWith(MockitoExtension.class)
 public class ManageProductsImplTest {
 
-  @Mock private ProductRepositoryPort productRepositoryPort;
+  @Mock
+  private ProductRepositoryPort productRepositoryPort;
 
-  @InjectMocks private ManageProductsImpl manageProducts;
+  @InjectMocks
+  private ManageProductsImpl manageProducts;
 
   private final String PRODUCT_ID = "1";
   private final String PRODUCT_NAME = "Test Product";
@@ -34,15 +37,14 @@ public class ManageProductsImplTest {
   void should_returnProduct_when_createProduct() {
 
     // Given
-    Product product =
-        Product.builder()
-            .id(PRODUCT_ID)
-            .name(PRODUCT_NAME)
-            .status(PRODUCT_STATUS)
-            .longDescription(PRODUCT_LONG_DESCRIPTION)
-            .shortDescription(PRODUCT_SHORT_DESCRIPTION)
-            .categoryIds(PRODUCT_CATEGORY_IDS)
-            .build();
+    Product product = Product.builder()
+        .id(PRODUCT_ID)
+        .name(PRODUCT_NAME)
+        .status(PRODUCT_STATUS)
+        .longDescription(PRODUCT_LONG_DESCRIPTION)
+        .shortDescription(PRODUCT_SHORT_DESCRIPTION)
+        .categoryIds(PRODUCT_CATEGORY_IDS)
+        .build();
 
     // When
     when(productRepositoryPort.save(product)).thenReturn(Mono.just(product));
@@ -55,24 +57,22 @@ public class ManageProductsImplTest {
 
   @Test
   void should_returnAllProducts() {
-    Product product1 =
-        Product.builder()
-            .id("1")
-            .name("Product 1")
-            .status("ACTIVE")
-            .longDescription("Long 1")
-            .shortDescription("Short 1")
-            .categoryIds(List.of("cat1"))
-            .build();
-    Product product2 =
-        Product.builder()
-            .id("2")
-            .name("Product 2")
-            .status("INACTIVE")
-            .longDescription("Long 2")
-            .shortDescription("Short 2")
-            .categoryIds(List.of("cat2"))
-            .build();
+    Product product1 = Product.builder()
+        .id("1")
+        .name("Product 1")
+        .status("ACTIVE")
+        .longDescription("Long 1")
+        .shortDescription("Short 1")
+        .categoryIds(List.of("cat1"))
+        .build();
+    Product product2 = Product.builder()
+        .id("2")
+        .name("Product 2")
+        .status("INACTIVE")
+        .longDescription("Long 2")
+        .shortDescription("Short 2")
+        .categoryIds(List.of("cat2"))
+        .build();
     when(productRepositoryPort.findAll())
         .thenReturn(reactor.core.publisher.Flux.just(product1, product2));
     StepVerifier.create(manageProducts.getAllProducts())
@@ -84,15 +84,14 @@ public class ManageProductsImplTest {
 
   @Test
   void should_returnProductById_whenExists() {
-    Product product =
-        Product.builder()
-            .id(PRODUCT_ID)
-            .name(PRODUCT_NAME)
-            .status(PRODUCT_STATUS)
-            .longDescription(PRODUCT_LONG_DESCRIPTION)
-            .shortDescription(PRODUCT_SHORT_DESCRIPTION)
-            .categoryIds(PRODUCT_CATEGORY_IDS)
-            .build();
+    Product product = Product.builder()
+        .id(PRODUCT_ID)
+        .name(PRODUCT_NAME)
+        .status(PRODUCT_STATUS)
+        .longDescription(PRODUCT_LONG_DESCRIPTION)
+        .shortDescription(PRODUCT_SHORT_DESCRIPTION)
+        .categoryIds(PRODUCT_CATEGORY_IDS)
+        .build();
     when(productRepositoryPort.findById(PRODUCT_ID)).thenReturn(Mono.just(product));
     StepVerifier.create(manageProducts.getProduct(PRODUCT_ID)).expectNext(product).verifyComplete();
     verify(productRepositoryPort).findById(PRODUCT_ID);
@@ -109,24 +108,22 @@ public class ManageProductsImplTest {
 
   @Test
   void should_updateProduct_whenExists() {
-    Product product =
-        Product.builder()
-            .id(PRODUCT_ID)
-            .name(PRODUCT_NAME)
-            .status(PRODUCT_STATUS)
-            .longDescription(PRODUCT_LONG_DESCRIPTION)
-            .shortDescription(PRODUCT_SHORT_DESCRIPTION)
-            .categoryIds(PRODUCT_CATEGORY_IDS)
-            .build();
-    Product updatedProduct =
-        Product.builder()
-            .id(PRODUCT_ID)
-            .name("Updated Name")
-            .status(PRODUCT_STATUS)
-            .longDescription(PRODUCT_LONG_DESCRIPTION)
-            .shortDescription(PRODUCT_SHORT_DESCRIPTION)
-            .categoryIds(PRODUCT_CATEGORY_IDS)
-            .build();
+    Product product = Product.builder()
+        .id(PRODUCT_ID)
+        .name(PRODUCT_NAME)
+        .status(PRODUCT_STATUS)
+        .longDescription(PRODUCT_LONG_DESCRIPTION)
+        .shortDescription(PRODUCT_SHORT_DESCRIPTION)
+        .categoryIds(PRODUCT_CATEGORY_IDS)
+        .build();
+    Product updatedProduct = Product.builder()
+        .id(PRODUCT_ID)
+        .name("Updated Name")
+        .status(PRODUCT_STATUS)
+        .longDescription(PRODUCT_LONG_DESCRIPTION)
+        .shortDescription(PRODUCT_SHORT_DESCRIPTION)
+        .categoryIds(PRODUCT_CATEGORY_IDS)
+        .build();
     when(productRepositoryPort.findById(PRODUCT_ID)).thenReturn(Mono.just(product));
     when(productRepositoryPort.save(updatedProduct)).thenReturn(Mono.just(updatedProduct));
     StepVerifier.create(manageProducts.updateProduct(PRODUCT_ID, updatedProduct))
@@ -138,15 +135,14 @@ public class ManageProductsImplTest {
 
   @Test
   void should_error_whenUpdateProductNotFound() {
-    Product product =
-        Product.builder()
-            .id(PRODUCT_ID)
-            .name(PRODUCT_NAME)
-            .status(PRODUCT_STATUS)
-            .longDescription(PRODUCT_LONG_DESCRIPTION)
-            .shortDescription(PRODUCT_SHORT_DESCRIPTION)
-            .categoryIds(PRODUCT_CATEGORY_IDS)
-            .build();
+    Product product = Product.builder()
+        .id(PRODUCT_ID)
+        .name(PRODUCT_NAME)
+        .status(PRODUCT_STATUS)
+        .longDescription(PRODUCT_LONG_DESCRIPTION)
+        .shortDescription(PRODUCT_SHORT_DESCRIPTION)
+        .categoryIds(PRODUCT_CATEGORY_IDS)
+        .build();
     when(productRepositoryPort.findById(PRODUCT_ID)).thenReturn(Mono.empty());
     StepVerifier.create(manageProducts.updateProduct(PRODUCT_ID, product))
         .expectError(ResourceNotFoundException.class)
@@ -156,15 +152,14 @@ public class ManageProductsImplTest {
 
   @Test
   void should_deleteProduct_whenExists() {
-    Product product =
-        Product.builder()
-            .id(PRODUCT_ID)
-            .name(PRODUCT_NAME)
-            .status(PRODUCT_STATUS)
-            .longDescription(PRODUCT_LONG_DESCRIPTION)
-            .shortDescription(PRODUCT_SHORT_DESCRIPTION)
-            .categoryIds(PRODUCT_CATEGORY_IDS)
-            .build();
+    Product product = Product.builder()
+        .id(PRODUCT_ID)
+        .name(PRODUCT_NAME)
+        .status(PRODUCT_STATUS)
+        .longDescription(PRODUCT_LONG_DESCRIPTION)
+        .shortDescription(PRODUCT_SHORT_DESCRIPTION)
+        .categoryIds(PRODUCT_CATEGORY_IDS)
+        .build();
     when(productRepositoryPort.findById(PRODUCT_ID)).thenReturn(Mono.just(product));
     when(productRepositoryPort.delete(product)).thenReturn(Mono.empty());
     StepVerifier.create(manageProducts.deleteProduct(PRODUCT_ID)).verifyComplete();

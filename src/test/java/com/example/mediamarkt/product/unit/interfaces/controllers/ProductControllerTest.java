@@ -1,4 +1,4 @@
-package com.example.mediamarkt.product.interfaces.controllers;
+package com.example.mediamarkt.product.unit.interfaces.controllers;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 import com.example.mediamarkt.product.application.impl.ManageCategoryImpl;
 import com.example.mediamarkt.product.application.impl.ManageProductsImpl;
 import com.example.mediamarkt.product.domain.model.Product;
+import com.example.mediamarkt.product.interfaces.controllers.ProductController;
 import com.example.mediamarkt.product.interfaces.controllers.dto.CategoryDto;
 import com.example.mediamarkt.product.interfaces.controllers.dto.ProductDto;
 import com.example.mediamarkt.product.interfaces.controllers.dto.ProductWithCategoryPathDto;
@@ -28,11 +29,14 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class ProductControllerTest {
 
-  @Autowired WebTestClient webTestClient;
+  @Autowired
+  WebTestClient webTestClient;
 
-  @MockitoBean private ManageProductsImpl productsImpl;
+  @MockitoBean
+  private ManageProductsImpl productsImpl;
 
-  @MockitoBean private ManageCategoryImpl categoryImpl;
+  @MockitoBean
+  private ManageCategoryImpl categoryImpl;
 
   @Test
   void createProduct_shouldReturnCreatedProduct() {
@@ -124,14 +128,14 @@ public class ProductControllerTest {
   @Test
   void getProductsWithCategoryPath_shouldReturnProductWithCategoryPaths() {
     ProductDto productDto = buildProductDto();
-    // Simula que el producto tiene dos categorías y cada una tiene un path de una sola categoría
+    // Simula que el producto tiene dos categorías y cada una tiene un path de una
+    // sola categoría
     List<CategoryDto> catPath1 = List.of(CategoryDto.builder().id("cat1").name("Cat 1").build());
     List<CategoryDto> catPath2 = List.of(CategoryDto.builder().id("cat2").name("Cat 2").build());
-    ProductWithCategoryPathDto response =
-        ProductWithCategoryPathDto.builder()
-            .product(productDto)
-            .categoryPaths(List.of(catPath1, catPath2))
-            .build();
+    ProductWithCategoryPathDto response = ProductWithCategoryPathDto.builder()
+        .product(productDto)
+        .categoryPaths(List.of(catPath1, catPath2))
+        .build();
     when(productsImpl.getProduct("1")).thenReturn(Mono.just(productDto.toDomain()));
     when(categoryImpl.getCategoryPath("cat1"))
         .thenReturn(Mono.just(List.of(catPath1.get(0).toDomain())));

@@ -1,4 +1,4 @@
-package com.example.mediamarkt.product.infraestructure.persistence;
+package com.example.mediamarkt.product.unit.infraestructure.persistence;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -6,6 +6,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import com.example.mediamarkt.product.domain.model.Product;
+import com.example.mediamarkt.product.infraestructure.persistence.ProductRepositoryAdapter;
 import com.example.mediamarkt.product.infraestructure.persistence.mongo.ProductDocument;
 import com.example.mediamarkt.product.infraestructure.persistence.mongo.ReactiveProductRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -21,9 +22,11 @@ import reactor.test.StepVerifier;
 @ExtendWith(MockitoExtension.class)
 class ProductRepositoryAdapterTest {
 
-  @Mock private ReactiveProductRepository productRepo;
+  @Mock
+  private ReactiveProductRepository productRepo;
 
-  @InjectMocks private ProductRepositoryAdapter adapter;
+  @InjectMocks
+  private ProductRepositoryAdapter adapter;
 
   private final String PRODUCT_ID = "1";
   private final String PRODUCT_NAME = "Laptop";
@@ -33,8 +36,7 @@ class ProductRepositoryAdapterTest {
   void should_saveProduct_when_save() {
     // Arrange
     Product domainProduct = Product.builder().id(PRODUCT_ID).name(PRODUCT_NAME).build();
-    ProductDocument savedDocument =
-        ProductDocument.builder().id(PRODUCT_ID).name(PRODUCT_NAME).build();
+    ProductDocument savedDocument = ProductDocument.builder().id(PRODUCT_ID).name(PRODUCT_NAME).build();
 
     when(productRepo.save(any(ProductDocument.class))).thenReturn(Mono.just(savedDocument));
 
