@@ -4,6 +4,7 @@ import com.example.mediamarkt.product.domain.exception.ResourceNotFoundException
 import jakarta.validation.ConstraintViolationException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -28,8 +29,13 @@ public class GlobalExceptionHandler {
 
     Map<String, String> response = new HashMap<>();
 
+    String errorMessages =
+        ex.getBindingResult().getFieldErrors().stream()
+            .map(fieldError -> fieldError.getDefaultMessage())
+            .collect(Collectors.joining());
+
     response.put("error", "Validation Error");
-    response.put("message", ex.getMessage());
+    response.put("message", errorMessages);
 
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
   }

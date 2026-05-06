@@ -4,6 +4,7 @@ import com.example.mediamarkt.product.application.impl.ManageCategoryImpl;
 import com.example.mediamarkt.product.interfaces.controllers.dto.CategoryDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,7 +31,7 @@ public class CategoryController {
   @PostMapping()
   @ResponseStatus(HttpStatus.CREATED)
   @Operation(summary = "Create new Category")
-  public Mono<CategoryDto> create(@RequestBody Mono<CategoryDto> categoryDto) {
+  public Mono<CategoryDto> create(@Valid @RequestBody Mono<CategoryDto> categoryDto) {
 
     return categoryDto
         .map(CategoryDto::toDomain)
@@ -62,7 +63,7 @@ public class CategoryController {
   @ResponseStatus(HttpStatus.OK)
   @Operation(summary = "Update category")
   public Mono<CategoryDto> update(
-      @PathVariable String id, @RequestBody Mono<CategoryDto> categoryDto) {
+      @PathVariable String id, @Valid @RequestBody Mono<CategoryDto> categoryDto) {
 
     return categoryDto
         .map(CategoryDto::toDomain)

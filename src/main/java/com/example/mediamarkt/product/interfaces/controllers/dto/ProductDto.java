@@ -1,7 +1,8 @@
 package com.example.mediamarkt.product.interfaces.controllers.dto;
 
 import com.example.mediamarkt.product.domain.model.Product;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import java.util.List;
 import lombok.Builder;
 import lombok.Data;
@@ -12,19 +13,19 @@ public class ProductDto {
 
   private String id;
 
-  @NotNull(message = "Name is required")
+  @NotBlank(message = "Name is required")
   private String name;
 
-  @NotNull(message = "status is required")
+  @NotBlank(message = "Status is required")
   private String status;
 
-  @NotNull(message = "LongDescription is required")
+  @NotBlank(message = "Long description is required")
   private String longDescription;
 
-  @NotNull(message = "ShortDescription is required")
+  @NotBlank(message = "Short description is required")
   private String shortDescription;
 
-  @NotNull(message = "CategoryIds is required")
+  @NotEmpty(message = "Category IDs are required")
   private List<String> categoryIds;
 
   // Mappers for dto's

@@ -7,6 +7,7 @@ import com.example.mediamarkt.product.interfaces.controllers.dto.ProductDto;
 import com.example.mediamarkt.product.interfaces.controllers.dto.ProductWithCategoryPathDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +38,7 @@ public class ProductController {
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   @Operation(summary = "Create new Product")
-  public Mono<ProductDto> create(@RequestBody Mono<ProductDto> productDto) {
+  public Mono<ProductDto> create(@Valid @RequestBody Mono<ProductDto> productDto) {
     return productDto
         .map(ProductDto::toDomain)
         .flatMap(productsImpl::createProduct)
@@ -107,7 +108,7 @@ public class ProductController {
   @ResponseStatus(HttpStatus.OK)
   @Operation(summary = "Update product by Id")
   public Mono<ProductDto> update(
-      @PathVariable String id, @RequestBody Mono<ProductDto> productDto) {
+      @PathVariable String id, @Valid @RequestBody Mono<ProductDto> productDto) {
 
     return productDto
         .map(ProductDto::toDomain)
