@@ -1,5 +1,7 @@
 package com.example.mediamarkt.product.infraestructure.config.aop;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -28,23 +30,28 @@ public class LoggingAspect {
     log.info("Starting {}.{} with arguments: {}", className, methodName, args);
 
     Object proceed = joinPoint.proceed();
+    LocalDateTime hora = LocalDateTime.now();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    String formattedDate = hora.format(formatter);
 
     if (proceed instanceof Mono<?> mono) {
       return mono.doOnSuccess(
               value ->
                   log.info(
-                      "SUCCESS {}.{} durationMs={} message={}",
+                      "SUCCESS {}.{} durationMs={} hour={} message={}",
                       className,
                       methodName,
                       System.currentTimeMillis() - start,
+                      formattedDate,
                       sanitize(value)))
           .doOnError(
               error ->
                   log.info(
-                      "ERROR {}.{} durationMs={} message={}",
+                      "ERROR {}.{} durationMs={} hour={} message={}",
                       className,
                       methodName,
                       System.currentTimeMillis() - start,
+                      formattedDate,
                       error.getMessage()));
 
     } else if (proceed instanceof Flux<?> flux) {
@@ -52,25 +59,29 @@ public class LoggingAspect {
       return flux.doOnComplete(
               () ->
                   log.info(
-                      "SUCCESS {}.{} durationMs={} message={}",
-                      className,
-                      methodName,
-                      System.currentTimeMillis() - start))
-          .doOnError(
-              error ->
-                  log.info(
-                      "ERROR {}.{} durationMs={} message={}",
+                      "SUCCESS {}.{} durationMs={} hour={} message={}",
                       className,
                       methodName,
                       System.currentTimeMillis() - start,
+                      formattedDate,
+                      null))
+          .doOnError(
+              error ->
+                  log.info(
+                      "ERROR {}.{} durationMs={} hour={} message={}",
+                      className,
+                      methodName,
+                      System.currentTimeMillis() - start,
+                      formattedDate,
                       error.getMessage()));
     }
 
     log.info(
-        "SUCCESS {}.{} durationMs={} result={}",
+        "SUCCESS {}.{} durationMs={} hour={} result={}",
         className,
         methodName,
         System.currentTimeMillis() - start,
+        formattedDate,
         sanitize(proceed));
     return proceed;
   }

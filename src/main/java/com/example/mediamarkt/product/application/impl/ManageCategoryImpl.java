@@ -57,10 +57,14 @@ public class ManageCategoryImpl {
         .expandDeep(
             category -> {
               if (category.getParentId() != null && !category.getParentId().isEmpty()) {
+                log.debug("Searching the parentId, {}", category.getParentId());
+                log.debug("Current Category name: {}", category.getName());
                 return categoryRepositoryPort.findById(category.getParentId());
               }
               return Mono.empty();
             })
+        .take(30) // Add a safety measure to prevent infinite loops, aproximated to the depth of
+        // the tree.
         .collectList()
         .map(
             list -> {
