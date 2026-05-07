@@ -1,6 +1,7 @@
 package com.example.mediamarkt.product.interfaces.controllers.dto;
 
 import com.example.mediamarkt.product.domain.model.Product;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import java.util.List;
@@ -11,6 +12,7 @@ import lombok.Data;
 @Builder
 public class ProductDto {
 
+  @Schema(accessMode = Schema.AccessMode.READ_ONLY)
   private String id;
 
   @NotBlank(message = "Name is required")

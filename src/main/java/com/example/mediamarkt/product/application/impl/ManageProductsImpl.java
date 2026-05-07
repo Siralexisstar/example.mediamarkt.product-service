@@ -15,6 +15,7 @@ public class ManageProductsImpl {
   private final ProductRepositoryPort productRepositoryPort;
 
   public Mono<Product> createProduct(Product product) {
+    product.setId(null);
     return productRepositoryPort.save(product);
   }
 

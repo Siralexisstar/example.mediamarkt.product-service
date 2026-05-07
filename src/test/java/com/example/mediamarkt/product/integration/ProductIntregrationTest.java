@@ -126,7 +126,7 @@ class ProductIntregrationTest extends AbstractIntegrationTest {
         .isCreated()
         .expectBody()
         .jsonPath("$.id")
-        .isEqualTo("NEW-PROD-1")
+        .exists()
         .jsonPath("$.name")
         .isEqualTo("Test Product");
   }
@@ -137,7 +137,7 @@ class ProductIntregrationTest extends AbstractIntegrationTest {
     // Post one product
     ProductDto productDto =
         ProductDto.builder()
-            .id("UPDATE-PROD-1")
+            .id(null)
             .name("OLD PRODUCT")
             .shortDescription("Short")
             .longDescription("Long")
@@ -145,19 +145,25 @@ class ProductIntregrationTest extends AbstractIntegrationTest {
             .categoryIds(List.of("CAT-TV-1"))
             .build();
 
-    webTestClient
-        .post()
-        .uri("/api/v1/products")
-        .contentType(MediaType.APPLICATION_JSON)
-        .bodyValue(productDto)
-        .exchange()
-        .expectStatus()
-        .isCreated();
+    String generatedId =
+        (String)
+            webTestClient
+                .post()
+                .uri("/api/v1/products")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(productDto)
+                .exchange()
+                .expectStatus()
+                .isCreated()
+                .expectBody(java.util.Map.class)
+                .returnResult()
+                .getResponseBody()
+                .get("id");
 
     // Update old product
     ProductDto updateProductDto =
         ProductDto.builder()
-            .id("UPDATE-PROD-1")
+            .id(null)
             .name("NEW PRODUCT")
             .shortDescription("Short")
             .longDescription("Long")
@@ -167,7 +173,7 @@ class ProductIntregrationTest extends AbstractIntegrationTest {
 
     webTestClient
         .put()
-        .uri("/api/v1/products/{id}", "UPDATE-PROD-1")
+        .uri("/api/v1/products/{id}", generatedId)
         .contentType(MediaType.APPLICATION_JSON)
         .bodyValue(updateProductDto)
         .exchange()
@@ -175,7 +181,7 @@ class ProductIntregrationTest extends AbstractIntegrationTest {
         .isOk()
         .expectBody()
         .jsonPath("$.id")
-        .isEqualTo("UPDATE-PROD-1")
+        .isEqualTo(generatedId)
         .jsonPath("$.name")
         .isEqualTo("NEW PRODUCT")
         .jsonPath("$.status")
@@ -187,7 +193,7 @@ class ProductIntregrationTest extends AbstractIntegrationTest {
   void should_Delete_Product() {
     ProductDto futureDeleteProd =
         ProductDto.builder()
-            .id("DELETE-PROD-1")
+            .id(null)
             .name("To be Deleted")
             .shortDescription("Short")
             .longDescription("Long")
@@ -196,19 +202,25 @@ class ProductIntregrationTest extends AbstractIntegrationTest {
             .build();
 
     // insert
-    webTestClient
-        .post()
-        .uri("/api/v1/products")
-        .contentType(MediaType.APPLICATION_JSON)
-        .bodyValue(futureDeleteProd)
-        .exchange()
-        .expectStatus()
-        .isCreated();
+    String generatedId =
+        (String)
+            webTestClient
+                .post()
+                .uri("/api/v1/products")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(futureDeleteProd)
+                .exchange()
+                .expectStatus()
+                .isCreated()
+                .expectBody(java.util.Map.class)
+                .returnResult()
+                .getResponseBody()
+                .get("id");
 
     // delete
     webTestClient
         .delete()
-        .uri("/api/v1/products/{id}", "DELETE-PROD-1")
+        .uri("/api/v1/products/{id}", generatedId)
         .exchange()
         .expectStatus()
         .isNoContent();
@@ -216,7 +228,7 @@ class ProductIntregrationTest extends AbstractIntegrationTest {
     // verify
     webTestClient
         .get()
-        .uri("/api/v1/products/{id}", "DELETE-PROD-1")
+        .uri("/api/v1/products/{id}", generatedId)
         .exchange()
         .expectStatus()
         .isNotFound();
