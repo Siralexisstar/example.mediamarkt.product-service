@@ -57,6 +57,27 @@ class ProductIntregrationTest extends AbstractIntegrationTest {
   @Test
   @DisplayName("Integration Test: Should Return a Product with its Category Path")
   void shouldReturnProductWithCategoryPath() {
+    // 1. Insertamos un producto de prueba para asegurarnos de que la base de datos
+    // no esté vacía
+    ProductDto newProduct =
+        ProductDto.builder()
+            .name("Test Product")
+            .shortDescription("Short")
+            .longDescription("Long")
+            .status("ACTIVE")
+            .categoryIds(List.of("CAT-TV-1"))
+            .build();
+
+    webTestClient
+        .post()
+        .uri("/api/v1/products")
+        .contentType(MediaType.APPLICATION_JSON)
+        .bodyValue(newProduct)
+        .exchange()
+        .expectStatus()
+        .isCreated();
+
+    // 2. Ahora sí, hacemos el GET all y ya sabemos que habrá al menos 1 producto
     webTestClient
         .get()
         .uri("/api/v1/products/all")
@@ -92,7 +113,7 @@ class ProductIntregrationTest extends AbstractIntegrationTest {
             .shortDescription("Short")
             .longDescription("Long")
             .status("ACTIVE")
-            .categoryIds(List.of())
+            .categoryIds(List.of("CAT-TV-1"))
             .build();
 
     webTestClient
@@ -115,7 +136,14 @@ class ProductIntregrationTest extends AbstractIntegrationTest {
   void should_Update_Product() {
     // Post one product
     ProductDto productDto =
-        ProductDto.builder().id("UPDATE-PROD-1").name("OLD PRODUCT").status("DRAFT").build();
+        ProductDto.builder()
+            .id("UPDATE-PROD-1")
+            .name("OLD PRODUCT")
+            .shortDescription("Short")
+            .longDescription("Long")
+            .status("DRAFT")
+            .categoryIds(List.of("CAT-TV-1"))
+            .build();
 
     webTestClient
         .post()
@@ -128,7 +156,14 @@ class ProductIntregrationTest extends AbstractIntegrationTest {
 
     // Update old product
     ProductDto updateProductDto =
-        ProductDto.builder().id("UPDATE-PROD-1").name("NEW PRODUCT").status("ACTIVE").build();
+        ProductDto.builder()
+            .id("UPDATE-PROD-1")
+            .name("NEW PRODUCT")
+            .shortDescription("Short")
+            .longDescription("Long")
+            .status("ACTIVE")
+            .categoryIds(List.of("CAT-TV-1"))
+            .build();
 
     webTestClient
         .put()
@@ -151,7 +186,14 @@ class ProductIntregrationTest extends AbstractIntegrationTest {
   @DisplayName("Integration Test: Should Delete an Existing Product")
   void should_Delete_Product() {
     ProductDto futureDeleteProd =
-        ProductDto.builder().id("DELETE-PROD-1").name("To be Deleted").build();
+        ProductDto.builder()
+            .id("DELETE-PROD-1")
+            .name("To be Deleted")
+            .shortDescription("Short")
+            .longDescription("Long")
+            .status("ACTIVE")
+            .categoryIds(List.of("CAT-TV-1"))
+            .build();
 
     // insert
     webTestClient
